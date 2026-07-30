@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+    <meta name="theme-color" content="#111812" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23243320'/%3E%3Cpath d='M16 26V13M16 17C9 17 7 11 7 7c6 0 9 3 9 8M16 17c7 0 9-6 9-10-6 0-9 3-9 8' stroke='%23cce56b' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+    <title>余烬花圃：末日自走棋</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game" aria-label="余烬花圃三维战场"></canvas>
+      <header class="hud" aria-label="游戏状态">
+        <div class="brand"><span class="brand-mark">✦</span><div><small>EMBER GARDEN</small><b>余烬花圃</b></div></div>
+        <div class="stat sun"><small>阳光</small><strong id="sun">220</strong></div>
+        <div class="wave"><span id="phase">备战</span><b id="wave">第 1 / 15 波</b><div class="track"><i id="progress"></i></div></div>
+        <div class="stat"><small>防线</small><strong id="hp">100</strong></div>
+        <div class="stat score-stat"><small>积分</small><strong id="score">000000</strong></div>
+        <div id="relics" class="relics" aria-label="遗物栏"></div>
+        <button id="audio" class="icon" aria-label="切换声音">♪</button>
+        <button id="pause" class="icon" aria-label="暂停游戏">Ⅱ</button>
+      </header>
+
+      <aside id="synergy" class="synergy"><span>构筑联动</span><div id="synergy-list">等待布阵</div></aside>
+      <aside id="boss-hud" class="boss-hud"><b id="boss-name">污染巨物</b><div><i id="boss-hp"></i></div></aside>
+      <div id="toast" role="status" aria-live="polite"></div>
+
+      <section id="prep" class="prep" aria-label="备战操作区">
+        <div class="shop-head"><div><small>种子商队</small><b>本波补给</b></div><div class="weather" id="weather">☀ 晴朗</div></div>
+        <div id="shop" class="shop" aria-label="植物商店"></div>
+        <div class="bench-wrap"><span>培育盘</span><div id="bench" class="bench"></div></div>
+        <div class="actions">
+          <button id="reroll">R 刷新 · 10</button><button id="lock">L 锁定</button><button id="graft">嫁接</button><button id="sell">出售</button>
+          <button id="shovel">Q 铲子 <i>3</i></button><button id="fertilizer">E 肥料 <i>2</i></button><button id="start-wave" class="primary">空格 · 开始来袭</button>
+        </div>
+      </section>
+
+      <section id="rewards" class="overlay hidden" aria-label="战后奖励"><div class="reward-panel"><small>波次肃清</small><h2>选择一项花园强化</h2><div id="reward-cards"></div></div></section>
+      <section id="mutation" class="overlay hidden" aria-label="三星变异选择"><div class="reward-panel"><small>三星觉醒</small><h2 id="mutation-title">选择变异方向</h2><div id="mutation-cards"></div></div></section>
+
+      <section id="modal" class="overlay">
+        <div class="modal-card">
+          <div class="sigil">✦</div><small id="modal-kicker">花园防线计划</small><h1 id="modal-title">余烬花圃</h1>
+          <p id="modal-copy">在污染浪潮吞没最后一片绿地前，买下种子、排列花圃，让变异植物自行迎敌。</p>
+          <div class="legend"><span>买种</span><i>→</i><span>摆阵</span><i>→</i><span>合成</span><i>→</i><span>迎战</span></div>
+          <button id="modal-action" class="primary">开始守园</button>
+          <small id="modal-hint">鼠标拖放 · 触屏操作 · 支持快捷键</small>
+        </div>
+      </section>
+      <div id="drag-ghost"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

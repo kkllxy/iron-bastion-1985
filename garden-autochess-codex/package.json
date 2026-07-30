@@ -1,0 +1,25 @@
+{
+  "name": "garden-autochess-codex",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "playwright test",
+    "verify:visual": "playwright test tests/visual.spec.ts",
+    "verify:baselines": "playwright test tests/visual.spec.ts",
+    "verify:bot": "playwright test tests/bot.spec.ts",
+    "inspect:canvas": "node scripts/inspect-canvas.mjs"
+  },
+  "dependencies": {
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.60.0",
+    "@types/three": "^0.184.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13"
+  }
+}

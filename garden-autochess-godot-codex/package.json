@@ -1,0 +1,20 @@
+{
+  "name": "garden-autochess-godot-codex-qa",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export:web": "godot --headless --path . --export-release Web build/web/index.html",
+    "serve:web": "node qa/server.mjs",
+    "test": "playwright test",
+    "verify:visual": "playwright test tests/visual.spec.ts",
+    "verify:baselines": "playwright test tests/visual-regression.spec.ts",
+    "verify:bot": "playwright test tests/bot-playtest.spec.ts",
+    "inspect:canvas": "node qa/inspect_canvas.mjs",
+    "test:native": "godot --headless --path . --script tests/run_all.gd"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.0",
+    "pngjs": "^7.0.0"
+  }
+}
