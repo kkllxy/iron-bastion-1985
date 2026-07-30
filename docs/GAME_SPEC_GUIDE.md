@@ -1,12 +1,12 @@
 # 游戏开发需求词 · 写作指南
 
 > 给谁看：新机器上的会话。用户会给你一款经典游戏 + 简要资料，你按本指南产出一份「开发需求词」，
-> 交给 `threejs-game-director` 去开发。风格范本见 `garden-autochess-glm/DEVELOPMENT.md`
-> 以及本仓库历史的 坦克 / 格斗 / 潜行 三份需求词。
+> 交给 `threejs-game-director` 去开发。风格范本见 `../garden-autochess-glm/DEVELOPMENT.md`
+> 以及本仓库历史三份需求词：`../iron-bastion-1985-glm/DEVELOPMENT.md`（坦克）/ `../mighty-brawl-93-glm/DEVELOPMENT.md`（格斗）/ `../burning-saboteur-87-glm/DEVELOPMENT.md`（潜行）。
 
 ## 一、每份需求词的固定结构（按顺序，五段）
 
-1. **工具选择前言**（逐字复用，绑定 `AGENTS.md`）
+1. **工具选择前言**（逐字复用，绑定 `../AGENTS.md`）
 2. **技能 + 目录隔离约束**
 3. **开发要求**
 4. **实现内容**（概念 / 操作 / 内容规模 / 核心系统 / 中文显示 / 画面）

@@ -1,9 +1,9 @@
 # 测试工具准备 / QA Setup（新机器）
 
 > 用途：在新机器上把本项目用到的三个 QA 工具（Playwright、Midscene.js、Chrome DevTools MCP）准备好。
-> 本文档可单独交给一个新会话执行。**工具选择规则见 `AGENTS.md`**；本文档只讲“怎么把工具装好、跑通”。
+> 本文档可单独交给一个新会话执行。**工具选择规则见 `../AGENTS.md`**；本文档只讲“怎么把工具装好、跑通”。
 
-## 0. 工具选择规则（摘要，完整版见 AGENTS.md）
+## 0. 工具选择规则（摘要，完整版见 `../AGENTS.md`）
 
 - **Playwright**：默认确定性验证与发布硬门禁（导航/DOM/状态/截图基线/回归）。
 - **Midscene.js**：只在需要人类视觉语义判断时用（Canvas 画面好不好认、是否拥挤/遮挡）；结果只能是 `warning`，不能单独作为发布硬门禁。
@@ -58,7 +58,7 @@ npm run inspect:canvas              # 画布像素非空检查（scripts/inspect
 - **必须配置 AI 模型 API Key**：按官方文档 https://midscenejs.com/ 配置（环境变量或本地配置）。
   - ⚠️ 密钥只能放**环境变量或本地未跟踪文件**，禁止写入仓库 / 打印到日志 / 提交。
   - 具体变量名以 Midscene 官方文档为准（不同版本/模型提供商不同）。
-- **未配置 key 时**：按 AGENTS.md，停止 Midscene 检查并报告，不得阻塞发布门禁；Playwright 硬门禁照常。
+- **未配置 key 时**：按 `../AGENTS.md`，停止 Midscene 检查并报告，不得阻塞发布门禁；Playwright 硬门禁照常。
 - 目前没有专用测试入口；第一次真正需要“人类视觉语义判断”时，再加一个最小 `tests/midscene-*.spec.ts`（先用 Playwright 把游戏推进到固定 seed/状态/viewport → 再用 `aiAssert` 检查视觉）。
 - 不要用 Midscene 检查数值阈值、网络错误、Console 错误或性能指标（那些归 Playwright / DevTools）。
 
