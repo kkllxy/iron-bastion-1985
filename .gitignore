@@ -5,3 +5,6 @@ artifacts/
 *.log
 .DS_Store
 tmp/
+
+# Playwright 视觉基线:机器相关,本地重新生成,不入库
+*-snapshots/
