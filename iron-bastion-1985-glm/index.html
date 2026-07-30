@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1016" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1016'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%23f0b429'%3E%E2%96%B2%3C/text%3E%3C/svg%3E" />
+    <meta name="description" content="Iron Bastion 1985 — a 3D tank-defense homage to classic 1985 arcade tank battles." />
+    <title>Iron Bastion 1985</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game-canvas" aria-label="Iron Bastion 1985 game canvas"></canvas>
+
+      <section id="hud-top" aria-live="polite">
+        <div class="hud-cluster">
+          <div class="hud-metric">
+            <span>Sector</span>
+            <strong><span id="hud-level">1</span></strong>
+          </div>
+          <div id="hud-name">Checkpoint</div>
+        </div>
+
+        <div id="hud-score-wrap">
+          <span class="hud-label">Score</span>
+          <strong id="hud-score">000000</strong>
+        </div>
+
+        <div class="hud-cluster right">
+          <div class="hud-metric">
+            <span>Lives</span>
+            <div id="hud-lives"></div>
+          </div>
+          <div class="hud-metric">
+            <span>Hostiles</span>
+            <div id="hud-enemies"></div>
+          </div>
+          <div class="hud-metric">
+            <span>Fire</span>
+            <div id="hud-fire"></div>
+          </div>
+        </div>
+      </section>
+
+      <div id="hud-powers" aria-live="off"></div>
+
+      <button id="btn-mute" type="button" data-on="true" aria-label="Toggle sound">♪</button>
+
+      <div id="overlay" data-show="true">
+        <div id="screen-title" class="screen" data-show="true">
+          <h1>IRON BASTION <span>1985</span></h1>
+          <p class="tag">A 3D tank-defense homage</p>
+          <div class="controls-grid">
+            <div><kbd>W A S D</kbd><span>Move</span></div>
+            <div><kbd>Space</kbd><span>Fire</span></div>
+            <div><kbd>P</kbd><span>Pause</span></div>
+          </div>
+          <p class="hint">Defend the bastion. Clear all hostiles. Advance through 3 sectors.</p>
+          <button id="btn-start" class="primary" type="button">Deploy</button>
+        </div>
+
+        <div id="screen-pause" class="screen" data-show="false">
+          <h2>Paused</h2>
+          <button id="btn-resume" class="primary" type="button">Resume</button>
+          <button id="btn-menu" class="ghost" type="button">Abort to Title</button>
+        </div>
+
+        <div id="screen-levelclear" class="screen banner" data-show="false">
+          <h2 id="banner-text">Sector Clear</h2>
+          <p id="banner-sub"></p>
+        </div>
+
+        <div id="screen-gameover" class="screen" data-show="false">
+          <h2 class="danger">Bastion Lost</h2>
+          <p class="hint">The sector has fallen. Regroup and try again.</p>
+          <button id="btn-restart" class="primary" type="button">Redeploy</button>
+        </div>
+
+        <div id="screen-victory" class="screen" data-show="false">
+          <h2 class="victory">Victory</h2>
+          <p class="hint">All sectors secured. The bastion stands.</p>
+          <button id="btn-restart" class="primary" type="button">Play Again</button>
+        </div>
+      </div>
+
+      <div id="flash"></div>
+
+      <div id="touch-controls" aria-hidden="true">
+        <div id="touch-stick">
+          <div id="touch-knob"></div>
+        </div>
+        <div class="touch-actions">
+          <button id="pause-button" type="button" aria-label="Pause">II</button>
+          <button id="fire-button" type="button" aria-label="Fire">✛</button>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

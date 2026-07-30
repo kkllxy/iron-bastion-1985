@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0a0c0f" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0c0f'/%3E%3Cpath d='M16 5l8 4v7c0 5-3.4 8.8-8 11-4.6-2.2-8-6-8-11V9z' fill='none' stroke='%2339d0ff' stroke-width='2'/%3E%3Ccircle cx='16' cy='14' r='2.4' fill='%2339d0ff'/%3E%3C/svg%3E" />
+    <title>夜枭行动 · 潜入谍战</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game-canvas" aria-label="夜枭行动游戏画布"></canvas>
+
+      <!-- 警戒/受伤全屏闪烁层 -->
+      <div id="alarm-overlay" aria-hidden="true"></div>
+
+      <!-- HUD 顶栏 -->
+      <section id="hud-top" aria-live="polite">
+        <div id="hud-left">
+          <div class="hud-card hp-card">
+            <span class="hud-label">生命</span>
+            <div class="hp-bar"><div id="hp-fill"></div></div>
+            <strong id="hp-text">100 / 100</strong>
+          </div>
+          <div class="hud-card compact">
+            <span class="hud-label">命数</span>
+            <strong id="lives">× 3</strong>
+          </div>
+        </div>
+        <div id="hud-center">
+          <div id="alert-badge">警戒：潜伏</div>
+          <div id="area-progress">1 / 3</div>
+        </div>
+        <div id="hud-right">
+          <div class="hud-card">
+            <span class="hud-label">区域</span>
+            <strong id="area-name">基地外围</strong>
+          </div>
+          <div class="hud-card compact">
+            <span class="hud-label">得分</span>
+            <strong id="score">000000</strong>
+          </div>
+          <div class="hud-card compact" id="boss-progress" style="display:none">
+            <span class="hud-label">兵器部位</span>
+            <strong>0/3</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- HUD 底栏：道具 / 小地图 -->
+      <section id="hud-bottom">
+        <div id="inventory">
+          <div class="hud-card inv"><span class="hud-label">当前装备</span><strong id="weapon">手枪</strong></div>
+          <div class="hud-card inv"><span class="hud-label">钥匙卡</span><strong id="card-level">0 级</strong></div>
+          <div class="hud-card inv"><span class="hud-label">口粮</span><strong id="rations">× 1</strong></div>
+          <div class="hud-card inv"><span class="hud-label">炸药</span><strong id="explosives">× 0</strong></div>
+        </div>
+        <div id="radar-wrap">
+          <span class="hud-label">雷达</span>
+          <canvas id="minimap" width="168" height="120"></canvas>
+        </div>
+      </section>
+
+      <div id="objective">任务：寻找 1 级钥匙卡后从闸门撤离</div>
+      <div id="interact-hint">按 E / 空格</div>
+
+      <!-- 顶部系统按钮 -->
+      <div id="sys-buttons">
+        <button id="btn-pause" type="button" aria-label="暂停">⏸</button>
+        <button id="btn-mute" type="button" aria-label="静音">🔊</button>
+        <button id="btn-confirm" type="button" aria-label="确认">✓</button>
+      </div>
+
+      <!-- 触屏控制 -->
+      <div id="touch-controls" aria-hidden="true">
+        <div id="touch-stick"><div id="touch-knob"></div></div>
+        <div id="touch-actions">
+          <button id="btn-stealth" type="button" aria-label="潜行">蹲</button>
+          <button id="btn-fire" type="button" aria-label="攻击">攻</button>
+          <button id="btn-interact" type="button" aria-label="互动">动</button>
+          <button id="btn-swap" type="button" aria-label="切换">换</button>
+          <button id="btn-box" type="button" aria-label="纸箱">箱</button>
+        </div>
+      </div>
+
+      <!-- 全屏覆盖层 -->
+      <div id="screen-root">
+        <section class="screen" data-screen="menu">
+          <h1 class="game-title">夜枭行动</h1>
+          <p class="game-sub">潜入 · 谍报 · 破坏</p>
+          <p class="desc">扮演潜入特工「夜枭」，孤身渗透铁幕军团核武基地。靠潜行、伪装与解谜推进，而非蛮力硬拼。摧毁最终核武步行兵器，方可完成任务。</p>
+          <button id="btn-start" class="primary" type="button">开始任务</button>
+          <p class="hint">键盘：WASD 移动 · J/X 攻击 · Q/Tab 切换 · Shift 潜行 · E 空格 互动 · F/B 纸箱 · P 暂停</p>
+        </section>
+
+        <section class="screen" data-screen="briefing">
+          <h2 data-field="title">基地外围</h2>
+          <p class="sub" data-field="subtitle">第一区域</p>
+          <div class="brief-detail" data-field="detail"></div>
+          <button id="btn-confirm-brief" class="primary" type="button" data-action="confirm">潜入</button>
+        </section>
+
+        <section class="screen" data-screen="paused">
+          <h2>已暂停</h2>
+          <div class="btn-row">
+            <button id="btn-resume" class="primary" type="button">继续</button>
+            <button id="btn-restart" type="button">重新开始</button>
+            <button id="btn-menu" type="button">返回主菜单</button>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="dead">
+          <h2 data-field="title">被击倒</h2>
+          <p class="sub" data-field="subtitle">剩余命数</p>
+          <div class="brief-detail" data-field="detail"></div>
+          <button id="btn-revive" class="primary" type="button" data-action="confirm">在当前区域重生</button>
+        </section>
+
+        <section class="screen" data-screen="gameover">
+          <h2 data-field="title">潜入失败</h2>
+          <p class="sub" data-field="subtitle">任务终止</p>
+          <div class="brief-detail" data-field="detail"></div>
+          <button id="btn-restart" class="primary" type="button">重新开始</button>
+        </section>
+
+        <section class="screen" data-screen="victory">
+          <h2 data-field="title">任务完成</h2>
+          <p class="sub" data-field="subtitle">核武步行兵器已被摧毁</p>
+          <div class="brief-detail" data-field="detail"></div>
+          <button id="btn-menu" class="primary" type="button">返回主菜单</button>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
