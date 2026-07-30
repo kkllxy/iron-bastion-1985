@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0c160e" />
+    <meta name="description" content="末日花园自走棋 — 变异植物抵抗污染怪物的摆阵自动战斗" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%225%22 fill=%22%23122014%22/><text x=%2216%22 y=%2223%22 font-size=%2218%22 text-anchor=%22middle%22 fill=%22%236fd35a%22 font-family=%22Arial%22>🌱</text></svg>"
+    />
+    <title>末日花园自走棋 · GARDEN AUTOCHESS</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game-canvas" aria-label="末日花园自走棋 可玩游戏画面"></canvas>
+      <div id="flash-overlay" aria-hidden="true"></div>
+      <div id="hit-layer" aria-hidden="true"></div>
+
+      <header id="topbar">
+        <section class="hud-col hud-left" aria-label="资源与防线">
+          <div class="sun-block">
+            <span class="sun-orb" aria-hidden="true"></span>
+            <b id="sun-value" class="sun-value mono">0</b>
+          </div>
+          <div class="stat-block hp-block">
+            <span class="hud-kicker">防线血量</span>
+            <div class="meter"><i id="hp-fill"></i></div>
+            <b id="hp-text" class="mono" style="font-size: 12px">100</b>
+          </div>
+        </section>
+
+        <section class="hud-col hud-mid" aria-label="波次进度">
+          <div class="stat-block wave-block">
+            <span class="hud-kicker">波次</span>
+            <b id="wave-text" class="mono">1 / 15</b>
+          </div>
+          <div class="meter thin" aria-label="波次进度"><i id="wave-fill"></i></div>
+          <b id="score-value" class="mono" style="font-size: 13px; color: var(--sun)">000000</b>
+        </section>
+
+        <section class="hud-col hud-right" aria-label="遗物与控制">
+          <div class="relic-row" id="relic-row" aria-label="已获得遗物"></div>
+          <div style="display: flex; gap: 6px">
+            <button id="mute-button" type="button" class="icon-btn" aria-label="静音切换">🔊</button>
+            <button id="pause-button" type="button" class="icon-btn" aria-label="暂停">II</button>
+          </div>
+        </section>
+      </header>
+
+      <div id="status-line" aria-live="polite">
+        <span id="status-icon">◆</span><span id="status-text"></span>
+      </div>
+
+      <!-- BOSS 血条 -->
+      <div id="boss-bar" style="position:absolute; top:96px; left:50%; transform:translateX(-50%); display:none; flex-direction:column; gap:4px; align-items:center; z-index:19;">
+        <span id="boss-name" style="font-size:13px; font-weight:700; color:#ff8a6a"></span>
+        <div class="meter" style="width:240px; max-width:60vw"><i id="boss-fill" style="background:linear-gradient(90deg,#a83030,#ff5a4a)"></i></div>
+      </div>
+
+      <!-- 备战面板 -->
+      <section id="prep-panel" class="hidden" aria-label="备战阶段：商店、备战台、工具">
+        <div class="shop-row">
+          <div id="shop" aria-label="商店"></div>
+        </div>
+        <div class="shop-row">
+          <div id="bench" aria-label="备战台"></div>
+        </div>
+        <div class="tools-row">
+          <button id="reroll-btn" type="button" class="btn" aria-label="刷新商店">
+            🔄 刷新 <span class="cost">10</span>
+          </button>
+          <button id="lock-btn" type="button" class="btn" aria-label="锁定商店">🔓 锁定</button>
+          <button id="shovel-btn" type="button" class="tool-btn" aria-label="铲子（移除植物）" title="铲子 (Q)">🪏<span class="count" id="shovel-count">3</span></button>
+          <button id="fertilizer-btn" type="button" class="tool-btn" aria-label="肥料（临时增益）" title="肥料 (E)">💩<span class="count" id="fert-count">2</span></button>
+          <button id="start-wave-btn" type="button" class="btn primary" aria-label="开始本波战斗">⚔ 开始本波 (空格)</button>
+        </div>
+      </section>
+
+      <!-- 奖励卡 -->
+      <section id="reward-cards" aria-label="奖励选择"></section>
+
+      <!-- 模态 -->
+      <div id="game-modal" role="dialog" aria-modal="true">
+        <div id="modal-card">
+          <div id="modal-eyebrow"></div>
+          <h1 id="modal-title"></h1>
+          <p id="modal-copy"></p>
+          <button id="modal-action" type="button" class="btn primary"></button>
+          <div id="modal-hint"></div>
+          <div id="mutation-picker">
+            <div style="font-size:13px; color:var(--ink-dim)">该植物已达 3★，选择一个变异方向：</div>
+            <div class="mut-options" id="mut-options"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 拖拽幽灵 -->
+      <div id="drag-ghost" aria-hidden="true"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
