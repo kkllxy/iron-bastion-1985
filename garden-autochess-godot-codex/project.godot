@@ -1,0 +1,102 @@
+; Engine configuration file.
+; Edit through the Godot editor when practical.
+
+config_version=5
+
+[application]
+
+config/name="末日花园自走棋"
+run/main_scene="res://features/game/main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+GlobalSignalBus="*res://common/global_signal_bus.gd"
+
+[display]
+
+window/size/viewport_width=390
+window/size/viewport_height=664
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[display/window]
+
+size/viewport_width=390
+size/viewport_height=664
+stretch/mode="canvas_items"
+stretch/aspect="expand"
+
+[input]
+
+reroll={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":82,"unicode":114)]
+}
+toggle_lock={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":76,"unicode":108)]
+}
+tool_shovel={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":81,"unicode":113)]
+}
+tool_fertilizer={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":69,"unicode":101)]
+}
+start_wave={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":32,"unicode":32)]
+}
+toggle_pause={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":4194305)]
+}
+buy_1={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":49,"unicode":49)]
+}
+buy_2={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":50,"unicode":50)]
+}
+buy_3={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":51,"unicode":51)]
+}
+buy_4={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":52,"unicode":52)]
+}
+buy_5={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"physical_keycode":53,"unicode":53)]
+}
+
+[layer_names]
+
+2d_physics/layer_1="植物"
+2d_physics/layer_2="怪物"
+2d_physics/layer_3="投射物"
+
+[physics]
+
+common/physics_ticks_per_second=60
+common/physics_jitter_fix=0.5
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/vram_compression/import_etc2_astc=true
+textures/vram_compression/import_s3tc_bptc=true
+environment/defaults/default_clear_color=Color(0.027, 0.047, 0.055, 1)
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1

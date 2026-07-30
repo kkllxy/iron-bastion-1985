@@ -1,0 +1,11 @@
+.godot/
+.import/
+build/*
+!build/.gdignore
+web/
+test-results/
+playwright-report/
+node_modules/*
+!node_modules/.gdignore
+.DS_Store
+*.log
